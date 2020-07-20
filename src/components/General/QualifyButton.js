@@ -9,11 +9,25 @@ const QualifyButton = styled.button`
   color: ${({ theme }) => theme.foreground};
   border: ${({ border }) => border};
   font-size: ${({ size }) => size.fontSize}rem;
+  outline: none;
+  ${({ selected }) => (selected ? 'border: 2px solid;' : '')};
+
+  &:hover {
+    filter: contrast(90%);
+  }
+
+  &:disabled {
+    filter: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 QualifyButton.defaultProps = {
   theme: {
-    background: colors.background,
+    background: 'transparent',
     foreground: colors.foreground,
   },
   size: {

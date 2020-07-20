@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, compose as reduxCompose } from 'redux';
 import { Provider } from 'react-redux';
 
 import rootReducer from './store/reducers';
@@ -10,7 +10,14 @@ import * as serviceWorker from './serviceWorker';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const store = createStore(rootReducer);
+let compose;
+if (process.env.REACT_APP_NODE_ENV === 'dev') {
+  compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose;
+} else {
+  compose = reduxCompose;
+}
+
+const store = createStore(rootReducer, compose());
 
 ReactDOM.render(
   // eslint-disable-next-line react/jsx-filename-extension

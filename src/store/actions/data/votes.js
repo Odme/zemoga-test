@@ -1,27 +1,27 @@
-export const GET_DATED_DATA = 'FETCH_DATED_DATA';
-export const UPDATE_DATED_DATA = 'UPDATE_DATED_DATA';
-export const RESET_CROSSFILTER = 'RESET_CROSSFILTER';
+export const PUSH_VOTE = 'PUSH_VOTE';
+export const RESET_VOTE = 'RESET_VOTE';
+export const RESET_VOTES = 'RESET_VOTES';
 
-const resetCrossfilter = () => ({
-  type: RESET_CROSSFILTER,
+const resetVotes = () => ({
+  type: RESET_VOTES,
 });
 
-const setGetDatedData = ({ records }) => ({
-  type: GET_DATED_DATA,
-  payload: { records },
+const pushVote = ({ vote }) => ({
+  type: PUSH_VOTE,
+  payload: { vote },
 });
 
-const updateDatedData = ({ records }) => ({
-  type: UPDATE_DATED_DATA,
-  payload: { records },
+const resetVote = (id) => ({
+  type: RESET_VOTE,
+  payload: { id },
 });
 
 const init = () => (dispatch, getState) => {
 };
 
 export default {
-  resetCrossfilter,
+  resetVotes,
   init,
-  setGetDatedData,
-  updateDatedData,
+  pushVote,
+  resetVote,
 };

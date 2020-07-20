@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import styled, { ThemeContext } from 'styled-components/macro';
 import {
   Container,
@@ -53,14 +54,19 @@ const CloseMessage = styled(Col)`
   justify-content: center;
 `;
 
-const HomeView = () => {
+const HomeView = (props) => {
+  const {
+    closingIn,
+    splashPerson,
+    votePersons,
+    resetVote,
+    pushVote,
+  } = props;
   const themeContext = useContext(ThemeContext);
   const { width } = useWindowDimensions();
   return (
     <>
-      <HomeCoverImage
-        coverImage="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Pope_Francis_Korea_Haemi_Castle_19.jpg/1200px-Pope_Francis_Korea_Haemi_Castle_19.jpg"
-      >
+      <HomeCoverImage coverImage={splashPerson.imageUrl}>
         <NavbarView />
         <CoverGradient />
         <HomeVote>
@@ -81,7 +87,7 @@ const HomeView = () => {
               percent: 75,
               write: {
                 ...VoteProgress.defaultProps.down.write,
-                text: '22 days',
+                text: closingIn,
                 fontSize: 2.5,
               },
             }}
@@ -90,12 +96,12 @@ const HomeView = () => {
       </HomeCoverImage>
       <Container>
         <HomeMesage background={themeContext.highlight}>
-          <Col xs={11} sm={11} md={4} lg={3}>
+          <Col xs={10} sm={11} md={4} lg={3}>
             <div style={{ fontSize: '1.25rem', fontWeight: 300 }}>Speak out. Be Heard.</div>
             <div style={{ fontSize: '2.15rem', fontWeight: 700 }}>Be counted</div>
           </Col>
           {width <= windowSizes.sm ? (
-            <CloseMessage xs={1} sm={1} md={1} lg={1}>
+            <CloseMessage xs={2} sm={1} md={1} lg={1}>
               <FontAwesomeIcon icon={faTimes} />
             </CloseMessage>
           ) : null}
@@ -113,9 +119,22 @@ const HomeView = () => {
         </HomeMesage>
         <h1 style={{ fontWeight: 300 }}>Votes</h1>
         <HomeSection>
-          <Col xs={12} sm={12} md={6} lg={6}>
-            <VoteCard />
-          </Col>
+          {votePersons.map((person) => (
+            <Col
+              key={person.id}
+              xs={12}
+              sm={12}
+              md={6}
+              lg={6}
+              style={{ padding: (width <= windowSizes.sm) ? 0 : null }}
+            >
+              <VoteCard
+                person={person}
+                resetVote={resetVote}
+                pushVote={pushVote}
+              />
+            </Col>
+          ))}
         </HomeSection>
       </Container>
     </>
@@ -123,6 +142,31 @@ const HomeView = () => {
 };
 
 HomeView.propTypes = {
+  closingIn: PropTypes.string.isRequired,
+  splashPerson: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    description: PropTypes.string,
+    ago: PropTypes.string,
+    section: PropTypes.string,
+    upVotes: PropTypes.number,
+    downVotes: PropTypes.number,
+    splash: PropTypes.bool,
+    imageUrl: PropTypes.string,
+  }).isRequired,
+  votePersons: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    description: PropTypes.string,
+    ago: PropTypes.string,
+    section: PropTypes.string,
+    upVotes: PropTypes.number,
+    downVotes: PropTypes.number,
+    splash: PropTypes.bool,
+    imageUrl: PropTypes.string,
+  })).isRequired,
+  resetVote: PropTypes.func.isRequired,
+  pushVote: PropTypes.func.isRequired,
 };
 
 export default HomeView;

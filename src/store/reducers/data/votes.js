@@ -1,4 +1,4 @@
-import { RESET_CROSSFILTER, GET_DATED_DATA, UPDATE_DATED_DATA } from '../../actions/data/votes';
+import { RESET_VOTES, RESET_VOTE, PUSH_VOTE } from '../../actions/data/votes';
 
 export const initialState = () => ({
   persons: [
@@ -12,6 +12,8 @@ export const initialState = () => ({
       downVotes: 0,
       splash: true,
       imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Pope_Francis_Korea_Haemi_Castle_19.jpg/1200px-Pope_Francis_Korea_Haemi_Castle_19.jpg',
+      voted: false,
+      voteCount: 0,
     },
     {
       id: 'kanye',
@@ -23,6 +25,8 @@ export const initialState = () => ({
       downVotes: 36,
       splash: false,
       imageUrl: 'https://los40es00.epimg.net/los40/imagenes/2020/07/16/bigbang/1594908620_526459_1594908737_miniatura_normal.jpg',
+      voted: false,
+      voteCount: 0,
     },
     {
       id: 'mark',
@@ -34,6 +38,8 @@ export const initialState = () => ({
       downVotes: 64,
       splash: false,
       imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/18/Mark_Zuckerberg_F8_2019_Keynote_%2832830578717%29_%28cropped%29.jpg',
+      voted: true,
+      voteCount: 1,
     },
     {
       id: 'cristina',
@@ -45,6 +51,8 @@ export const initialState = () => ({
       downVotes: 64,
       splash: false,
       imageUrl: 'https://www.ecured.cu/images/thumb/0/01/CFK.jpg/1200px-CFK.jpg',
+      voted: false,
+      voteCount: 0,
     },
     {
       id: 'malala',
@@ -56,6 +64,8 @@ export const initialState = () => ({
       downVotes: 36,
       splash: false,
       imageUrl: 'https://www.thinkingheads.com/wp-content/uploads/2018/11/malala-yousafzai-conferencista.png',
+      voted: false,
+      voteCount: 0,
     },
   ],
   closingIn: '22 days',
@@ -64,22 +74,33 @@ export const initialState = () => ({
 export default (state = initialState(), action) => {
   const { type, payload } = action;
   switch (type) {
-    case GET_DATED_DATA:
+    case RESET_VOTE: {
+      const { id } = payload;
+      const persons = [...state.persons];
+      const index = persons.findIndex((person) => person.id === id);
+      persons[index].voted = false;
       return {
         ...state,
-        records: payload.records,
-        totalRecords: payload.records.length || 0,
-      };
-    case UPDATE_DATED_DATA: {
-      const { records } = state;
-      const newRecords = [...records, ...payload.records];
-      return {
-        ...state,
-        records: newRecords,
-        totalRecords: (state.totalRecords + payload.records.length),
+        persons,
       };
     }
-    case RESET_CROSSFILTER:
+    case PUSH_VOTE: {
+      const { id, vote } = payload.vote;
+      const persons = [...state.persons];
+      const index = persons.findIndex((person) => person.id === id);
+      persons[index].voted = true;
+      if (vote === 'up') {
+        persons[index].upVotes += 1;
+      } else {
+        persons[index].downVotes += 1;
+      }
+      persons[index].voteCount += 1;
+      return {
+        ...state,
+        persons,
+      };
+    }
+    case RESET_VOTES:
       return initialState();
     default:
       return state;

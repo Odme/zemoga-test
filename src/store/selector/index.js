@@ -1,3 +1,13 @@
 import { createSelector } from 'reselect';
 
-const getPersons = (state) => state.data.votes.persons;
+export const getPersons = (state) => state.votes.persons;
+
+export const getSplashPerson = createSelector(
+  [getPersons],
+  (persons) => (persons.filter((person) => person.splash))[0],
+);
+
+export const getVotePersons = createSelector(
+  [getPersons],
+  (persons) => (persons.filter((person) => !person.splash)),
+);
