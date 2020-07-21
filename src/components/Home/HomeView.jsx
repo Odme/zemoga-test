@@ -255,7 +255,17 @@ const HomeView = (props) => {
           <Col xs={12} sm={12} md={9} lg={9}>
             <AddNameText>Is there anyone else there you would want us to add?</AddNameText>
           </Col>
-          <Col xs={12} sm={12} md={3} lg={3} style={{ textAlign: 'right' }}>
+          <Col
+            xs={12}
+            sm={12}
+            md={3}
+            lg={3}
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+            }}
+          >
             <QualifyButton
               onClick={null}
               size={{
