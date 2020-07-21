@@ -55,4 +55,4 @@ Right now it-s only available `users` routes, included signup and login endpoint
 I'm running a MongoDB instance locally (`mongodb://localhost:27017/zemoga_test`), so:<br />
  - You can change the connect url in `server/db/connection.js - line 3`.<br />
  or<br />
- - If you also are running a MongoDB instance locally, verify the port `27017` (if not the same, change it in `server/db/connection.js - line 3`) then create a new db `zemoga_test` as name.
+ - If you are also running a MongoDB instance locally, verify the port `27017` (if not the same, change it in `server/db/connection.js - line 3`) then create a new db `zemoga_test` as name.
