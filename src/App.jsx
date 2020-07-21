@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import PageStyle from './components/General/PageStyle';
-import LayoutView from './components/Layout/LayoutView';
+import Layout from './components/Layout/Layout';
 import colors from './constants/colors';
 
 const App = () => (
@@ -11,7 +11,7 @@ const App = () => (
     <PageStyle />
     <BrowserRouter>
       <ThemeProvider theme={colors}>
-        <LayoutView />
+        <Layout />
       </ThemeProvider>
     </BrowserRouter>
   </>

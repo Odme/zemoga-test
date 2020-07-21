@@ -22,10 +22,4 @@ const ContentView = () => (
   </ContentWrapper>
 );
 
-ContentView.defaultProps = {
-};
-
-ContentView.propTypes = {
-};
-
 export default ContentView;

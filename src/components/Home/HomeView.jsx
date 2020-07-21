@@ -7,7 +7,7 @@ import {
   Row,
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 import NavbarView from '../Navbar/NavbarView';
 import VoteProgress from '../General/VoteProgress';
@@ -16,6 +16,7 @@ import useWindowDimensions from '../../utils/useWindowDimensions';
 import windowSizes from '../../constants/windowSizes';
 import CoverGradient from '../General/CoverGradient';
 import VoteCard from '../General/VoteCard';
+import QualifyButton from '../General/QualifyButton';
 
 const HomeCoverImage = styled.section`
   background-image: url(${({ coverImage }) => (coverImage)});
@@ -23,6 +24,41 @@ const HomeCoverImage = styled.section`
   background-size: cover;
   position: relative;
   font-size: 2rem;
+`;
+
+const CoverDescription = styled.div`
+  position: absolute;
+  left: 10%;
+  bottom: 100px;
+  z-index: 2;
+  width: 500px;
+  padding: 0 15px;
+  color: ${({ foreground }) => foreground};
+
+  @media(max-width: 768px) {
+    width: 100%;
+    left: 0;
+  }
+`;
+
+const CoverDescriptionBlur = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  filter: blur(2px);
+  z-index: -1;
+`;
+
+const CoverDescriptionLink = styled.a`
+  text-decoration: dotted;
+  color: inherit;
+
+  &:hover {
+    text-decoration: dotted;
+    color: inherit;
+    filter: contrast(80%);
+  }
 `;
 
 const HomeVote = styled.div`
@@ -54,6 +90,44 @@ const CloseMessage = styled(Col)`
   justify-content: center;
 `;
 
+const VotesTitle = styled.h1`
+  font-weight: 300;
+`;
+
+const HomeAddName = styled(HomeSection)`
+  position: relative;
+
+  > div {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  &::after {
+    content: '';
+    background: url('https://image.shutterstock.com/image-photo/crowd-people-shopping-street-260nw-740632564.jpg');
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;   
+  }
+
+`;
+
+const AddNameText = styled.h2`
+  font-weight: 300;
+`;
+
+const PointDivider = styled.hr`
+  background-image: linear-gradient(to right, #333 10%, rgba(255, 255, 255, 0) 0%);
+  background-position: top;
+  background-size: 10px 1px;
+  background-repeat: repeat-x;
+  height: 1px;
+`;
+
 const HomeView = (props) => {
   const {
     closingIn,
@@ -69,6 +143,47 @@ const HomeView = (props) => {
       <HomeCoverImage coverImage={splashPerson.imageUrl}>
         <NavbarView />
         <CoverGradient />
+        <CoverDescription foreground={themeContext.background}>
+          <Row style={{ position: 'relative' }}>
+            <CoverDescriptionBlur />
+            <Col>
+              <span style={{ fontSize: '0.9rem' }}>What&apos;s your opinion on</span>
+              <h1 style={{ fontSize: '5rem' }}>{`${splashPerson.name}?`}</h1>
+              <p style={{ fontSize: '1rem' }}>{splashPerson.description}</p>
+              <CoverDescriptionLink style={{ fontSize: '0.9rem' }} href="/">More Informaction</CoverDescriptionLink>
+              <h4 style={{ margin: '1rem 0' }}>What&apos;s your veredict?</h4>
+            </Col>
+            <VoteProgress
+              up={{
+                ...VoteProgress.defaultProps.up,
+                percent: 50,
+                brackgorund: themeContext.success,
+                foreground: themeContext.background,
+                opacity: 'BF',
+                write: {
+                  ...VoteProgress.defaultProps.up.write,
+                  fontSize: 2,
+                  icon: faThumbsUp,
+                  justify: 'center',
+                },
+              }}
+              down={{
+                ...VoteProgress.defaultProps.down,
+                percent: 50,
+                brackgorund: themeContext.warning,
+                foreground: themeContext.background,
+                opacity: 'BF',
+                write: {
+                  ...VoteProgress.defaultProps.down.write,
+                  fontSize: 2,
+                  icon: faThumbsDown,
+                  justify: 'center',
+                },
+              }}
+              size={5}
+            />
+          </Row>
+        </CoverDescription>
         <HomeVote>
           <VoteProgress
             up={{
@@ -117,7 +232,7 @@ const HomeView = (props) => {
             </CloseMessage>
           ) : null}
         </HomeMesage>
-        <h1 style={{ fontWeight: 300 }}>Votes</h1>
+        <VotesTitle>Votes</VotesTitle>
         <HomeSection>
           {votePersons.map((person) => (
             <Col
@@ -136,6 +251,29 @@ const HomeView = (props) => {
             </Col>
           ))}
         </HomeSection>
+        <HomeAddName>
+          <Col xs={12} sm={12} md={9} lg={9}>
+            <AddNameText>Is there anyone else there you would want us to add?</AddNameText>
+          </Col>
+          <Col xs={12} sm={12} md={3} lg={3} style={{ textAlign: 'right' }}>
+            <QualifyButton
+              onClick={null}
+              size={{
+                ...QualifyButton.defaultProps.size,
+                height: 2.75,
+                width: 10,
+                fontSize: 1.2,
+              }}
+              theme={{
+                ...QualifyButton.defaultProps.theme,
+              }}
+              border="2px solid"
+            >
+              Submit a Name
+            </QualifyButton>
+          </Col>
+        </HomeAddName>
+        <PointDivider />
       </Container>
     </>
   );

@@ -1,9 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, compose as reduxCompose } from 'redux';
+import {
+  applyMiddleware,
+  createStore,
+  compose as reduxCompose,
+} from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 
 import rootReducer from './store/reducers';
+import actions from './store/actions';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -17,7 +23,11 @@ if (process.env.REACT_APP_NODE_ENV === 'dev') {
   compose = reduxCompose;
 }
 
-const store = createStore(rootReducer, compose());
+const store = createStore(
+  rootReducer,
+  compose(applyMiddleware(thunk)),
+);
+store.dispatch(actions.data.votes.init());
 
 ReactDOM.render(
   // eslint-disable-next-line react/jsx-filename-extension

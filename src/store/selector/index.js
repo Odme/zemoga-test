@@ -11,3 +11,10 @@ export const getVotePersons = createSelector(
   [getPersons],
   (persons) => (persons.filter((person) => !person.splash)),
 );
+
+export const getStore = (state) => state.votes;
+
+export const setStoreOnLocalStorage = createSelector(
+  [getStore],
+  (storage) => localStorage.setItem('votesStorage', JSON.stringify(storage)),
+);

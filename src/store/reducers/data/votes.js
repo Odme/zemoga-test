@@ -1,4 +1,9 @@
-import { RESET_VOTES, RESET_VOTE, PUSH_VOTE } from '../../actions/data/votes';
+import {
+  RESET_VOTES,
+  RESET_VOTE,
+  PUSH_VOTE,
+  SET_STATE_VOTES,
+} from '../../actions/data/votes';
 
 export const initialState = () => ({
   persons: [
@@ -100,6 +105,11 @@ export default (state = initialState(), action) => {
         persons,
       };
     }
+    case SET_STATE_VOTES:
+      return {
+        ...state,
+        ...payload.state,
+      };
     case RESET_VOTES:
       return initialState();
     default:

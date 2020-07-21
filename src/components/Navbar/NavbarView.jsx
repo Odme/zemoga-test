@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components/macro';
 import { useHistory } from 'react-router-dom';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faBars } from '@fortawesome/free-solid-svg-icons';
 import { Container } from 'react-bootstrap';
 
 import TabBar from '../General/TabBar';
@@ -51,6 +51,12 @@ const options = [
     toPath: '/search',
     icon: faSearch,
   },
+  {
+    title: '',
+    toPath: '/search',
+    icon: faBars,
+    mobile: true,
+  },
 ];
 
 const NavbarView = () => {
@@ -66,12 +72,6 @@ const NavbarView = () => {
       </BoxContainer>
     </NavbarWrapper>
   );
-};
-
-NavbarView.defaultProps = {
-};
-
-NavbarView.propTypes = {
 };
 
 export default NavbarView;
