@@ -15,6 +15,16 @@ router.get('/', (req, res) => {
   });
 });
 
+/* GET user data. */
+router.get('/:id', (req, res) => {
+  const { id } = req.params;
+  User.findOne({ _id: id }).then((user) => {
+    res.status(200).json(user);
+  }).catch((error) => {
+    res.status(400).json({ error });
+  });
+});
+
 /* POST users signup. */
 router.post('/signup', (req, res) => {
   const { user, pwd } = req.body;

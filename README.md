@@ -31,3 +31,21 @@ State management and clean data update using immutability.
 ### React Fontawesome
 
 Famous svg icons library adapted to React.
+
+## Server Side
+
+You can find a server side into a folder called `server`, just right there is available the next commands:
+
+### `npm start`
+
+Runs the express in the development mode.<br />
+Open [http://localhost:5000](http://localhost:5000) in the browser to view if is running.
+
+Right now it-s only available `users` routes, included signup and login endpoints. They aren't on use by front-end yet.
+
+  - GET `/users/` Get all users
+  - GET `/users/:id`  Get one user
+  - POST `/users/signup`  Signup user
+  - POST `/users/login` Login user
+  - PUT `/users/:id`  Edit user
+  - DELETE `/users/:id` Delete user
